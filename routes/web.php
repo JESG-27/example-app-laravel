@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Comentario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +30,19 @@ Route::get('/contacto', function(){
 });
 
 Route::post('/contacto', function(Request $request){
-    dd($request->all(), $request->nombre, $request->input('nombre'));
-    $nombre = $request->nombre;
-    return "Hola POST";
+    // dd($request->all(), $request->nombre, $request->input('nombre'));
+    // $nombre = $request->nombre;
+
+    // Validar Datos
+
+    // Guardar Datos
+    $comentario = new Comentario();
+    $comentario->nombre = $request->nombre;
+    $comentario->correo = $request->correo;
+    $comentario->comentario = $request->comentario;
+    $comentario->ciudad = $request->ciudad;
+    $comentario->save();
+
+    // Redireccionar 
+    return redirect('/contacto');
 });
