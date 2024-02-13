@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Comentario;
-use Illuminate\Http\Request;
+use App\Http\Controllers\ComentarioController;
+use App\Http\Controllers\SitioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,30 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/informacion/{tipo?}', function($tipo = null){
-    // Función para debug die and dump
-    // dd($tipo);
-    return view('info', compact('tipo'));
-});
-
-Route::get('/contacto', function(){
-    return view('formContacto');
-});
-
-Route::post('/contacto', function(Request $request){
-    // dd($request->all(), $request->nombre, $request->input('nombre'));
-    // $nombre = $request->nombre;
-
-    // Validar Datos
-
-    // Guardar Datos
-    $comentario = new Comentario();
-    $comentario->nombre = $request->nombre;
-    $comentario->correo = $request->correo;
-    $comentario->comentario = $request->comentario;
-    $comentario->ciudad = $request->ciudad;
-    $comentario->save();
-
-    // Redireccionar 
-    return redirect('/contacto');
-});
+Route::get('/informacion/{tipo?}', [SitioController::class, 'info']);
+#Route::get('/contacto', [ComentarioController::class, 'create']);
+#Route::post('/contacto', [ComentarioController::class, 'store']);
+Route::resource('comentario', ComentarioController::class);

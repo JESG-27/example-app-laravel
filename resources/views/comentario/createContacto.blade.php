@@ -10,13 +10,13 @@
     <header>
         <div class="nav">
             <a href="/informacion">Información</a>
-            <a href="/contacto">Contacto</a>
+            <a href="/comentario/create">Contacto</a>
         </div>
     </header>
 
     <section class="contact-form">
         <h2>Contacto</h2>
-        <form method="POST" action="/contacto">
+        <form method="POST" action="/comentario">
             @csrf
             <label for="name">Nombre</label>
             <input type="text" id="name" name="nombre">
