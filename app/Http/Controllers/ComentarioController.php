@@ -16,7 +16,7 @@ class ComentarioController extends Controller
     public function index()
     {
         $comentarios = Comentario::all();
-        return view('comentario/indexComentario', compact('comentarios'));
+        return view('comentario.indexComentario', compact('comentarios'));
     }
 
     /**
@@ -26,7 +26,7 @@ class ComentarioController extends Controller
      */
     public function create()
     {
-        return view('comentario/createContacto');
+        return view('comentario.createComentario');
     }
 
     /**
@@ -37,6 +37,14 @@ class ComentarioController extends Controller
      */
     public function store(Request $request)
     {
+        // Validación
+        $request->validate([
+            'nombre' => ['required', 'string', 'max:255'],
+            'correo' => 'required|email',
+            'comentario' => 'required|min:10',
+            'ciudad' => 'required'
+        ]);
+
         // Guardar Datos
         $comentario = new Comentario();
         $comentario->nombre = $request->nombre;
@@ -46,7 +54,7 @@ class ComentarioController extends Controller
         $comentario->save();
 
         // Redireccionar 
-        return redirect()->back();
+        return redirect()->route('comentario.index');
     }
 
     /**
@@ -55,9 +63,9 @@ class ComentarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Comentario $comentario)
     {
-        //
+        return view('comentario.showComentario', compact('comentario'));
     }
 
     /**
@@ -66,9 +74,9 @@ class ComentarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comentario $comentario)
     {
-        //
+        return view('comentario.editComentario', compact('comentario'));
     }
 
     /**
@@ -78,9 +86,24 @@ class ComentarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comentario $comentario)
     {
-        //
+        // Validación
+        $request->validate([
+            'nombre' => ['required', 'string', 'max:255'],
+            'correo' => 'required|email',
+            'comentario' => 'required|min:10',
+            'ciudad' => 'required'
+        ]);
+
+        // Guardar datos
+        $comentario->nombre = $request->nombre;
+        $comentario->correo = $request->correo;
+        $comentario->comentario = $request->comentario;
+        $comentario->ciudad = $request->ciudad;
+        $comentario->save();
+
+        return redirect()->route('comentario.show', $comentario);
     }
 
     /**
@@ -89,8 +112,9 @@ class ComentarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comentario $comentario)
     {
-        //
+        $comentario->delete();
+        return redirect()->route('comentario.index');
     }
 }
