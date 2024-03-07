@@ -8,6 +8,11 @@
 </head>
 <body>
     <h1>Listado Comentarios</h1>
+    <form action="{{ route('logout') }}" method="POST" x-data>
+        @csrf
+        <a href="{{ route('logout') }}" @click.prevent="$root.submit();">Cerrar Sesión</a>
+    </form>
+    {{-- <a href="/logout" target="_blank" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"></a> --}}
     <a href="{{ route('comentario.create') }}">Agregar</a>
     <table border="1">
         <th>
@@ -37,5 +42,6 @@
             @endforeach
         </tbody>
     </table>
+    @livewireScripts
 </body>
 </html>
